@@ -13,7 +13,7 @@
     - [ ] Format email harus benar
     - [ ] Email bersifat unik
     - [ ] Panjang password 6 karakter
-    - [ ] Data: username, nama, password, user_photo
+    - [ ] Data: username, email, password, user_photo
 
 - [ ] POST `/login`
 
@@ -33,7 +33,7 @@
     Expected result :
     - [ ] Status login berubah menjadi `false`
     - [ ] Error jika logout menggunakan username yang belum login
-    - [ ] Data: username
+    - [ ] Data: token
 
 ## Quote
 - [ ] GET `/quote`
@@ -183,11 +183,11 @@
 | Auth | Users | Quotes | Ratings | Tags |
 | ---- | ---- | ---- | ---- | ---- |
 | auth_id | user_id | quote_id | rating_id | tag_id |
-| user_id | nama | user_id | user_id | tag_name |
-| username | username | quote | quote_count | tag_count |
-| token | password | author | user_rating | |
+| user_id | username | user_id | user_id | tag_name |
+| username | email | quote | quote_count | tag_count |
+| token | password | author | user_rating |
 | islogin | unique_id | tags | | |
 | | user_photo | upvote | | |
 | | created_at | downvote | | |
-| | updated_at |created_at | | |
-| | | updated_at | | |
+| | updated_at | created_at | | |
+| | |updated_at | | |

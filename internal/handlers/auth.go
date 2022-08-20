@@ -20,3 +20,11 @@ func (h *handler) Login(ctx context.Context, params *models.LoginRequest) (*mode
 	}
 	return res, nil
 }
+
+func (h *handler) Logout(ctx context.Context, token string) error {
+	err := h.useCase.Logout(ctx, token)
+	if err != nil {
+		return err
+	}
+	return nil
+}

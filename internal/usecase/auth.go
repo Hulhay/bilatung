@@ -79,20 +79,20 @@ func (u *useCase) Login(ctx context.Context, params *models.LoginRequest) (*mode
 
 	// Check username
 	if err != nil && user == nil {
-		return nil, errors.New("username not found")
+		return nil, errors.New("username tidak ditemukan")
 	}
 
 	// Check password
 	err = shared.CheckPassword(*params.Password, user.Password)
 	if err != nil {
-		return nil, errors.New("wrong password")
+		return nil, errors.New("password salah")
 	}
 
 	auth, err = u.repo.GetAuthByUsername(ctx, *params.Username)
 
 	// Check isLogin
 	if auth.Islogin == true {
-		return nil, errors.New("you have logged in")
+		return nil, errors.New("anda telah login")
 	}
 
 	err = u.repo.Login(ctx, params)
@@ -105,4 +105,31 @@ func (u *useCase) Login(ctx context.Context, params *models.LoginRequest) (*mode
 	}
 
 	return res, nil
+}
+
+func (u *useCase) Logout(ctx context.Context, token string) error {
+
+	var (
+		err  error
+		auth *models.Auth
+	)
+
+	auth, err = u.repo.GetAuthByToken(ctx, token)
+
+	// Check username
+	if err != nil && auth == nil {
+		return errors.New("username tidak ditemukan")
+	}
+
+	// Check is_login
+	if auth.Islogin != true {
+		return errors.New("anda harus login terlebih dahulu")
+	}
+
+	err = u.repo.Logout(ctx, token)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -88,11 +88,19 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 		})
 	})
 
-	if api.AuthPostLogoutHandler == nil {
-		api.AuthPostLogoutHandler = auth.PostLogoutHandlerFunc(func(params auth.PostLogoutParams) middleware.Responder {
-			return middleware.NotImplemented("operation auth.PostLogout has not yet been implemented")
+	// LOGOUT
+	api.AuthPostLogoutHandler = auth.PostLogoutHandlerFunc(func(params auth.PostLogoutParams) middleware.Responder {
+		err := handlers.NewHandler().Logout(context.Background(), params.Token)
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return auth.NewPostLogoutDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return auth.NewPostLogoutOK().WithPayload(&auth.PostLogoutOKBody{
+			Message: "Logout Successfully",
 		})
-	}
+	})
 
 	api.PreServerShutdown = func() {}
 

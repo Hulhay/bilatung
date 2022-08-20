@@ -26,14 +26,14 @@
     - [x] Error jika user login dengan username yang sudah status loginnya bernilai `true`
     - [x] Data: username, password
 
-- [ ] POST `/logout`
+- [x] POST `/logout`
 
     :green_circle: **Keluar dari akun.**
 
     Expected result :
-    - [ ] Status login berubah menjadi `false`
-    - [ ] Error jika logout menggunakan username yang belum login
-    - [ ] Data: token
+    - [x] Status login berubah menjadi `false`
+    - [x] Error jika logout menggunakan username yang belum login
+    - [x] Data: token
 
 ## Quote
 - [ ] GET `/quote`

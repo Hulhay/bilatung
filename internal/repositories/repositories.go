@@ -16,6 +16,8 @@ type Repositories interface {
 	CreateAuth(ctx context.Context, params *models.RegisterRequest) error
 	GetAuthByUsername(ctx context.Context, username string) (*models.Auth, error)
 	Login(ctx context.Context, params *models.LoginRequest) error
+	GetAuthByToken(ctx context.Context, token string) (*models.Auth, error)
+	Logout(ctx context.Context, token string) error
 
 	// User Repository
 	CreateUser(ctx context.Context, params *models.RegisterRequest) error

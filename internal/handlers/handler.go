@@ -17,6 +17,7 @@ type Handlers interface {
 	// Auth Handler
 	Register(ctx context.Context, params *models.RegisterRequest) error
 	Login(ctx context.Context, params *models.LoginRequest) (*models.Auth, error)
+	Logout(ctx context.Context, token string) error
 }
 
 func NewHandler() Handlers {

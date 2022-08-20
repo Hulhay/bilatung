@@ -53,3 +53,33 @@ func (r *repositories) Login(ctx context.Context, params *models.LoginRequest) e
 
 	return nil
 }
+
+func (r *repositories) GetAuthByToken(ctx context.Context, token string) (*models.Auth, error) {
+	var auth *models.Auth
+
+	tx := r.qry.Begin()
+	defer tx.Commit()
+
+	if err := tx.Model(&auth).Where("token = ?", token).First(&auth).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	return auth, nil
+}
+
+func (r *repositories) Logout(ctx context.Context, token string) error {
+	var auth *models.Auth
+
+	tx := r.qry.Begin()
+	defer tx.Commit()
+
+	if err := tx.Model(&auth).Where("token = ?", token).Updates(map[string]interface{}{
+		"islogin": false,
+	}).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return nil
+}

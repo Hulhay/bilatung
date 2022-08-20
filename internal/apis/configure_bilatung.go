@@ -73,11 +73,21 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 		})
 	})
 
-	if api.AuthPostLoginHandler == nil {
-		api.AuthPostLoginHandler = auth.PostLoginHandlerFunc(func(params auth.PostLoginParams) middleware.Responder {
-			return middleware.NotImplemented("operation auth.PostLogin has not yet been implemented")
+	// LOGIN
+	api.AuthPostLoginHandler = auth.PostLoginHandlerFunc(func(params auth.PostLoginParams) middleware.Responder {
+		result, err := handlers.NewHandler().Login(context.Background(), params.Body)
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return auth.NewPostLoginDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return auth.NewPostLoginOK().WithPayload(&auth.PostLoginOKBody{
+			Message: "Login Succcessfully",
+			Data:    result,
 		})
-	}
+	})
+
 	if api.AuthPostLogoutHandler == nil {
 		api.AuthPostLogoutHandler = auth.PostLogoutHandlerFunc(func(params auth.PostLogoutParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.PostLogout has not yet been implemented")

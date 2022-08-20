@@ -66,3 +66,43 @@ func (u *useCase) Register(ctx context.Context, params *models.RegisterRequest) 
 
 	return nil
 }
+
+func (u *useCase) Login(ctx context.Context, params *models.LoginRequest) (*models.Auth, error) {
+
+	var (
+		err  error
+		user *models.Users
+		auth *models.Auth
+	)
+
+	user, err = u.repo.GetUserByUsername(ctx, *params.Username)
+
+	// Check username
+	if err != nil && user == nil {
+		return nil, errors.New("username not found")
+	}
+
+	// Check password
+	err = shared.CheckPassword(*params.Password, user.Password)
+	if err != nil {
+		return nil, errors.New("wrong password")
+	}
+
+	auth, err = u.repo.GetAuthByUsername(ctx, *params.Username)
+
+	// Check isLogin
+	if auth.Islogin == true {
+		return nil, errors.New("you have logged in")
+	}
+
+	err = u.repo.Login(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &models.Auth{
+		Token: auth.Token,
+	}
+
+	return res, nil
+}

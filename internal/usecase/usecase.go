@@ -12,6 +12,7 @@ type useCase struct {
 
 type UseCase interface {
 	Register(ctx context.Context, params *models.RegisterRequest) error
+	Login(ctx context.Context, params *models.LoginRequest) (*models.Auth, error)
 }
 
 func NewUseCase(r repositories.Repositories) UseCase {

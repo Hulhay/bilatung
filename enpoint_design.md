@@ -15,16 +15,16 @@
     - [x] Panjang password 6 karakter
     - [x] Data: username, email, password, user_photo(tidak wajib)
 
-- [ ] POST `/login`
+- [x] POST `/login`
 
     :green_circle: **Masuk ke akun.**
 
     Expected result :
-    - [ ] Status login berubah menjadi `true`
-    - [ ] Error jika username tidak ditemukan
-    - [ ] Error jika username dan password tidak sama
-    - [ ] Error jika user login dengan username yang sudah status loginnya bernilai `true`
-    - Data: username, password
+    - [x] Status login berubah menjadi `true`
+    - [x] Error jika username tidak ditemukan
+    - [x] Error jika username dan password tidak sama
+    - [x] Error jika user login dengan username yang sudah status loginnya bernilai `true`
+    - [x] Data: username, password
 
 - [ ] POST `/logout`
 

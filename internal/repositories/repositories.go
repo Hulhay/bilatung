@@ -14,6 +14,8 @@ type repositories struct {
 type Repositories interface {
 	// Auth Repository
 	CreateAuth(ctx context.Context, params *models.RegisterRequest) error
+	GetAuthByUsername(ctx context.Context, username string) (*models.Auth, error)
+	Login(ctx context.Context, params *models.LoginRequest) error
 
 	// User Repository
 	CreateUser(ctx context.Context, params *models.RegisterRequest) error

@@ -12,3 +12,12 @@ func EncryptPassword(password string) (string, error) {
 	}
 	return string(encryptedPassword), nil
 }
+
+func CheckPassword(password, passwordDB string) error {
+
+	err := bcrypt.CompareHashAndPassword([]byte(passwordDB), []byte(password))
+	if err != nil {
+		return err
+	}
+	return nil
+}

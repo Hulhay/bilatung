@@ -12,3 +12,11 @@ func (h *handler) Register(ctx context.Context, params *models.RegisterRequest) 
 	}
 	return nil
 }
+
+func (h *handler) Login(ctx context.Context, params *models.LoginRequest) (*models.Auth, error) {
+	res, err := h.useCase.Login(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}

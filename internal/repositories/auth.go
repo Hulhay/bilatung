@@ -23,3 +23,33 @@ func (r *repositories) CreateAuth(ctx context.Context, params *models.RegisterRe
 
 	return nil
 }
+
+func (r *repositories) GetAuthByUsername(ctx context.Context, username string) (*models.Auth, error) {
+	var auth *models.Auth
+
+	tx := r.qry.Begin()
+	defer tx.Commit()
+
+	if err := tx.Model(&auth).Where("username = ?", username).First(&auth).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	return auth, nil
+}
+
+func (r *repositories) Login(ctx context.Context, params *models.LoginRequest) error {
+	var auth *models.Auth
+
+	tx := r.qry.Begin()
+	defer tx.Commit()
+
+	if err := tx.Model(&auth).Where("username = ?", params.Username).Updates(map[string]interface{}{
+		"islogin": true,
+	}).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return nil
+}

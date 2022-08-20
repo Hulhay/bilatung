@@ -3,17 +3,17 @@
 > File ini akan dijadikan acuan dalam membuat API.
 
 ## Auth
-- [ ] POST `/register`
+- [x] POST `/register`
 
     :green_circle: **Membuat akun baru.**
 
     Expected result :
-    - [ ] Data user baru terekam di database
-    - [ ] Username bersifat unik
-    - [ ] Format email harus benar
-    - [ ] Email bersifat unik
-    - [ ] Panjang password 6 karakter
-    - [ ] Data: username, email, password, user_photo
+    - [x] Data user baru terekam di database
+    - [x] Username bersifat unik
+    - [x] Format email harus benar
+    - [x] Email bersifat unik
+    - [x] Panjang password 6 karakter
+    - [x] Data: username, email, password, user_photo(tidak wajib)
 
 - [ ] POST `/login`
 
@@ -186,7 +186,7 @@
 | user_id | username | user_id | user_id | tag_name |
 | username | email | quote | quote_count | tag_count |
 | token | password | author | user_rating |
-| islogin | unique_id | tags | | |
+| islogin | token | tags | | |
 | | user_photo | upvote | | |
 | | created_at | downvote | | |
 | | updated_at | created_at | | |

@@ -3,6 +3,7 @@
 package apis
 
 import (
+	"context"
 	"crypto/tls"
 	"net/http"
 
@@ -58,6 +59,20 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 		})
 	})
 
+	// REGISTER
+	api.AuthPostRegisterHandler = auth.PostRegisterHandlerFunc(func(params auth.PostRegisterParams) middleware.Responder {
+		err := handlers.NewHandler().Register(context.Background(), params.Body)
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return auth.NewPostRegisterDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return auth.NewPostRegisterCreated().WithPayload(&auth.PostRegisterCreatedBody{
+			Message: "Success Register New Account",
+		})
+	})
+
 	if api.AuthPostLoginHandler == nil {
 		api.AuthPostLoginHandler = auth.PostLoginHandlerFunc(func(params auth.PostLoginParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.PostLogin has not yet been implemented")
@@ -66,11 +81,6 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 	if api.AuthPostLogoutHandler == nil {
 		api.AuthPostLogoutHandler = auth.PostLogoutHandlerFunc(func(params auth.PostLogoutParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.PostLogout has not yet been implemented")
-		})
-	}
-	if api.AuthPostRegisterHandler == nil {
-		api.AuthPostRegisterHandler = auth.PostRegisterHandlerFunc(func(params auth.PostRegisterParams) middleware.Responder {
-			return middleware.NotImplemented("operation auth.PostRegister has not yet been implemented")
 		})
 	}
 

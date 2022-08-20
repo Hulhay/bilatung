@@ -30,6 +30,12 @@ type RegisterRequest struct {
 	// Min Length: 6
 	Password *string `json:"password"`
 
+	// token
+	Token string `json:"token,omitempty"`
+
+	// user id
+	UserID int64 `json:"user_id,omitempty"`
+
 	// user photo
 	UserPhoto string `json:"user_photo,omitempty"`
 

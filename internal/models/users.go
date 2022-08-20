@@ -30,8 +30,8 @@ type Users struct {
 	// password
 	Password string `json:"password,omitempty" gorm:"type:varchar(255)"`
 
-	// unique id
-	UniqueID string `json:"unique_id,omitempty" gorm:"type:varchar(255)"`
+	// token
+	Token string `json:"token,omitempty" gorm:"type:varchar(255)"`
 
 	// updated at
 	// Format: date-time

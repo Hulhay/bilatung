@@ -193,6 +193,8 @@ definitions:
       - email
       - password
     properties:
+      user_id:
+        type: "integer"
       username:
         type: "string"
         example: "Hulhay169"
@@ -205,6 +207,8 @@ definitions:
         type: "string"
         minLength: 6
       user_photo:
+        type: "string"
+      token:
         type: "string"
         
   LoginRequest:
@@ -239,7 +243,7 @@ definitions:
         x-go-custom-tag: gorm:"type:int primary key auto_increment"
       user_id:
         type: "integer"
-        x-go-custom-tag: gorm:"type:int(255)"
+        x-go-custom-tag: gorm:"foreignKey:UserID;references:UserID"
       username:
         type: "string"
         x-go-custom-tag: gorm:"type:varchar(255)"
@@ -268,7 +272,7 @@ definitions:
       password:
         type: "string"
         x-go-custom-tag: gorm:"type:varchar(255)"
-      unique_id:
+      token:
         type: "string"
         x-go-custom-tag: gorm:"type:varchar(255)"
       user_photo:

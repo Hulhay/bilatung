@@ -27,7 +27,7 @@ type Auth struct {
 	Token string `json:"token,omitempty" gorm:"type:varchar(255)"`
 
 	// user id
-	UserID int64 `json:"user_id,omitempty" gorm:"type:int(255)"`
+	UserID int64 `json:"user_id,omitempty" gorm:"foreignKey:UserID;references:UserID"`
 
 	// username
 	Username string `json:"username,omitempty" gorm:"type:varchar(255)"`

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	configs "bilatung/config"
+	"bilatung/internal/models"
 	"bilatung/internal/usecase"
 )
 
@@ -10,6 +11,7 @@ type handler struct {
 }
 
 type Handlers interface {
+	GetHealtcheck() (*models.Health, error)
 }
 
 func NewHandler() Handlers {

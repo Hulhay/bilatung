@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	"bilatung/internal/models"
 	"bilatung/internal/repositories"
 	"bilatung/internal/usecase"
 
@@ -71,7 +72,10 @@ func getQuery() *gorm.DB {
 			log.Panic(errMaster)
 		}
 
-		dbMaster.AutoMigrate()
+		dbMaster.AutoMigrate(
+			&models.Auth{},
+			&models.Users{},
+		)
 		log.Print("---- Auto Migrate Success ----")
 
 		qry = dbMaster

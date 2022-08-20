@@ -13,6 +13,8 @@ import (
 	"bilatung/internal/apis/operations"
 	"bilatung/internal/apis/operations/auth"
 	"bilatung/internal/apis/operations/health"
+	"bilatung/internal/handlers"
+	"bilatung/internal/models"
 )
 
 //go:generate swagger generate server --target ../../../bilatung --name Bilatung --spec ../../api/swagger.yml --model-package internal/models --server-package internal/apis --principal interface{}
@@ -39,11 +41,23 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.HealthGetHealthHandler == nil {
-		api.HealthGetHealthHandler = health.GetHealthHandlerFunc(func(params health.GetHealthParams) middleware.Responder {
-			return middleware.NotImplemented("operation health.GetHealth has not yet been implemented")
+	// GET HEALTH
+	api.HealthGetHealthHandler = health.GetHealthHandlerFunc(func(params health.GetHealthParams) middleware.Responder {
+		result, err := handlers.NewHandler().GetHealtcheck()
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return health.NewGetHealthDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return health.NewGetHealthOK().WithPayload(&health.GetHealthOKBody{
+			Data: &models.Health{
+				Status: result.Status,
+			},
+			Message: "Success",
 		})
-	}
+	})
+
 	if api.AuthPostLoginHandler == nil {
 		api.AuthPostLoginHandler = auth.PostLoginHandlerFunc(func(params auth.PostLoginParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.PostLogin has not yet been implemented")

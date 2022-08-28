@@ -14,6 +14,7 @@ import (
 	"bilatung/internal/apis/operations"
 	"bilatung/internal/apis/operations/auth"
 	"bilatung/internal/apis/operations/health"
+	"bilatung/internal/apis/operations/quote"
 	"bilatung/internal/handlers"
 	"bilatung/internal/models"
 )
@@ -99,6 +100,20 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 
 		return auth.NewPostLogoutOK().WithPayload(&auth.PostLogoutOKBody{
 			Message: "Logout Successfully",
+		})
+	})
+
+	// CREATE QUOTE
+	api.QuotePostQuoteHandler = quote.PostQuoteHandlerFunc(func(params quote.PostQuoteParams) middleware.Responder {
+		err := handlers.NewHandler().CreateQuote(context.Background(), &params)
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return quote.NewPostQuoteDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return quote.NewPostQuoteCreated().WithPayload(&quote.PostQuoteCreatedBody{
+			Message: "Create Quote Successfully",
 		})
 	})
 

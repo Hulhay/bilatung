@@ -75,6 +75,8 @@ func getQuery() *gorm.DB {
 		dbMaster.AutoMigrate(
 			&models.Auth{},
 			&models.Users{},
+			&models.Quotes{},
+			&models.Ratings{},
 		)
 		log.Print("---- Auto Migrate Success ----")
 

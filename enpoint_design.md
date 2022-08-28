@@ -69,17 +69,17 @@
     - [ ] Bisa menampilkan list quote berdasarkan username
     - [ ] Hanya login user yang bisa mengakses endpoint
 
-- [ ] POST `/quote`
+- [x] POST `/quote`
 
     :green_circle: **Membuat quote.**
     
     Expected result :
-    - [ ] Data quote terekam di database
-    - [ ] Data quote_count bertambah 1
-    - [ ] Hanya login user yang bisa membuat quote
-    - [ ] Panjang quote maksimal 100 character
-    - [ ] Tidak bisa hanya mengandung whitespace, tanda baca, atau angka
-    - [ ] Data : author, quote, tags
+    - [x] Data quote terekam di database
+    - [x] Data quote_count bertambah 1
+    - [x] Hanya login user yang bisa membuat quote
+    - [x] Panjang quote maksimal 100 character
+    - [x] Tidak bisa hanya mengandung whitespace, tanda baca, atau angka
+    - [x] Data : author, quote, tags
 
 - [ ] PUT `/quote/:id`
 

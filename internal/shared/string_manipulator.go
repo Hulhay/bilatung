@@ -1,6 +1,8 @@
 package shared
 
 import (
+	"regexp"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,4 +22,15 @@ func CheckPassword(password, passwordDB string) error {
 		return err
 	}
 	return nil
+}
+
+func RemovePunctuation(text string) (string, error) {
+
+	reg, err := regexp.Compile("[a-zA-Z0-9]+")
+	if err != nil {
+		return "", err
+	}
+	filteredText := reg.ReplaceAllString(text, "")
+
+	return filteredText, nil
 }

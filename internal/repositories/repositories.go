@@ -23,6 +23,14 @@ type Repositories interface {
 	CreateUser(ctx context.Context, params *models.RegisterRequest) error
 	GetUserByUsername(ctx context.Context, username string) (*models.Users, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.Users, error)
+
+	// Quote Repository
+	CreateQuote(ctx context.Context, params *models.Quotes) error
+
+	// Rating Repository
+	CreateRating(ctx context.Context, params *models.Ratings) error
+	GetRatingByUserID(ct context.Context, userID int) (*models.Ratings, error)
+	AddRatingQuoteCount(ctx context.Context, userID int, quoteCount int) error
 }
 
 func NewRepositories(q *gorm.DB) Repositories {

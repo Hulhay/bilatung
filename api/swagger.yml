@@ -11,8 +11,8 @@ schemes:
 tags:
   - name: "Health"
     description : "Check the service"
-  - name: "User"
-    description: "Every request and response about User"
+  - name: "Quote"
+    description: "Every request and response about Quote"
   - name: "Auth"
     description: "Every request and response about Auth"
 
@@ -122,6 +122,39 @@ paths:
                 type: "string"
                 description: "Logout successfully"
                 example: "Logout successfully"
+        default:
+          $ref: "#/responses/ErrorUnexpected"
+
+  /quote:
+    post:
+      summary: "Create quote"
+      description: "Cretae new quote"
+      tags:
+        - "Quote"
+      produces:
+        - "application/json"
+      parameters:
+        - in: header
+          name: "token"
+          type: "string"
+          description: "token for every account"
+          required: true
+        - in: body
+          name: "body"
+          description: "Body for create new quote"
+          required: true
+          schema:
+            $ref: "#/definitions/Quotes"
+      responses:
+        "201":
+          description: "Success"
+          schema:
+            type: object
+            properties:
+              message:
+                type: "string"
+                description: "Success create new quote"
+                example: "Succeess"
         default:
           $ref: "#/responses/ErrorUnexpected"
           
@@ -287,6 +320,63 @@ definitions:
         format: "date-time"
         x-go-custom-tag: gorm:"type:timestamp;autoUpdateTime"
   
+  Quotes:
+    type: "object"
+    required:
+      - quote
+      - author
+      - tags
+    properties:
+      quote_id:
+        type: "integer"
+        x-go-custom-tag: gorm:"type:int primary key auto_increment"
+      user_id:
+        type: "integer"
+        x-go-custom-tag: gorm:"foreignKey:UserID;references:UserID"
+      quote:
+        type: "string"
+        maxLength: 100
+        x-go-custom-tag: gorm:"type:varchar(255)"
+      author:
+        type: "string"
+        x-go-custom-tag: gorm:"type:varchar(255)"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+        x-go-custom-tag: gorm:"type:varchar(255)"
+      upvote:
+        type: "integer"
+        x-go-custom-tag: gorm:"type:int(255);default:0"
+      downvote:
+        type: "integer"
+        x-go-custom-tag: gorm:"type:int(255);default:0"
+      created_at:
+        type: "string"
+        format: "date-time"
+        x-go-custom-tag: gorm:"type:timestamp;autoCreateTime"
+      updated_at:
+        type: "string"
+        format: "date-time"
+        x-go-custom-tag: gorm:"type:timestamp;autoUpdateTime"
+
+  Ratings:
+    type: object
+    properties:
+      rating_id:
+        type: "integer"
+        x-go-custom-tag: gorm:"type:int primary key auto_increment"
+      user_id:
+        type: "integer"
+        x-go-custom-tag: gorm:"foreignKey:UserID;references:UserID"
+      quote_count:
+        type: "integer"
+        x-go-custom-tag: gorm:"type:int(255);default:0"
+      user_rating:
+        type: "number"
+        format: "float64"
+        x-go-custom-tag: gorm:"type:float;default:0.0"
+
   Error:
     type: object
     properties:

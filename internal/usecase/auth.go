@@ -55,13 +55,20 @@ func (u *useCase) Register(ctx context.Context, params *models.RegisterRequest) 
 
 	user, err = u.repo.GetUserByUsername(ctx, *params.Username)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	req.UserID = user.UserID
 	err = u.repo.CreateAuth(ctx, req)
 	if err != nil {
-		return nil
+		return err
+	}
+
+	err = u.repo.CreateRating(ctx, &models.Ratings{
+		UserID: req.UserID,
+	})
+	if err != nil {
+		return err
 	}
 
 	return nil

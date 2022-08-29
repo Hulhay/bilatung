@@ -33,3 +33,6 @@ internal/apis/embedded_spec.go
 internal/apis/server.go
 
 bilatung-server
+
+__pycache__
+.pytest_cache

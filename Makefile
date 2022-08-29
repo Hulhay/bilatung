@@ -13,3 +13,6 @@ clean:
 
 run: all
 	./bilatung-server --port=8080 --host=0.0.0.0
+
+test-api:
+	python3 -m pytest api_testing

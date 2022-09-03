@@ -22,6 +22,7 @@ type Handlers interface {
 
 	// Quote Handler
 	CreateQuote(ctx context.Context, params *quote.PostQuoteParams) error
+	GetRandomQuote(ctx context.Context) (*models.QuotesResponse, error)
 }
 
 func NewHandler() Handlers {

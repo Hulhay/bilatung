@@ -18,6 +18,7 @@ type UseCase interface {
 
 	// Quote UC
 	CreateQuote(ctx context.Context, params *models.Quotes, token string) error
+	GetRandomQuote(ctx context.Context) (*models.QuotesResponse, error)
 }
 
 func NewUseCase(r repositories.Repositories) UseCase {

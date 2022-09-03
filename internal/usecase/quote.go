@@ -5,6 +5,8 @@ import (
 	"bilatung/internal/shared"
 	"context"
 	"errors"
+	"fmt"
+	"math/rand"
 	"strconv"
 	"strings"
 )
@@ -61,4 +63,50 @@ func (u *useCase) CreateQuote(ctx context.Context, params *models.Quotes, token 
 	}
 
 	return nil
+}
+
+func (u *useCase) GetRandomQuote(ctx context.Context) (*models.QuotesResponse, error) {
+
+	var (
+		err   error
+		quote *models.Quotes
+		user  *models.Users
+		res   *models.QuotesResponse
+	)
+
+	count, err := u.repo.CountQuote(ctx)
+	if err != nil || count == 0 {
+		return nil, err
+	}
+	fmt.Println("[DEBUG] ---- count :", count)
+	for {
+		quoteID := rand.Intn(int(count)-1) + 1
+
+		quote, err = u.repo.GetQuoteByID(ctx, quoteID)
+		if err != nil {
+			return nil, err
+		}
+		if quote != nil {
+			break
+		}
+	}
+
+	user, err = u.repo.GetUserByID(ctx, quote.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	res = &models.QuotesResponse{
+		Author:    *quote.Author,
+		CreatedAt: quote.CreatedAt,
+		Downvote:  quote.Downvote,
+		Quote:     *quote.Quote,
+		QuoteID:   quote.QuoteID,
+		Tags:      *quote.Tags,
+		UpdatedAt: quote.UpdatedAt,
+		Upvote:    quote.Upvote,
+		User:      user.Username,
+	}
+
+	return res, nil
 }

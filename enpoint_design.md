@@ -36,13 +36,13 @@
     - [x] Data: token
 
 ## Quote
-- [ ] GET `/quote`
+- [x] GET `/quote`
     
     :green_circle: **Menampilkan random quote.**
 
     Expected result :
-    - [ ] Bisa menampilkan quote secara acak
-    - [ ] Bersifat publik
+    - [x] Bisa menampilkan quote secara acak
+    - [x] Bersifat publik
 
 - [ ] GET `/quote/:id`
     

@@ -23,9 +23,12 @@ type Repositories interface {
 	CreateUser(ctx context.Context, params *models.RegisterRequest) error
 	GetUserByUsername(ctx context.Context, username string) (*models.Users, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.Users, error)
+	GetUserByID(ctx context.Context, userID int64) (*models.Users, error)
 
 	// Quote Repository
 	CreateQuote(ctx context.Context, params *models.Quotes) error
+	CountQuote(ctx context.Context) (int64, error)
+	GetQuoteByID(ctx context.Context, quoteID int) (*models.Quotes, error)
 
 	// Rating Repository
 	CreateRating(ctx context.Context, params *models.Ratings) error

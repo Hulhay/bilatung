@@ -58,3 +58,17 @@ func (r *repositories) GetUserByEmail(ctx context.Context, email string) (*model
 
 	return user, nil
 }
+
+func (r *repositories) GetUserByID(ctx context.Context, userID int64) (*models.Users, error) {
+	var user *models.Users
+
+	tx := r.qry.Begin()
+	defer tx.Commit()
+
+	if err := tx.Model(&user).Where("user_id = ?", userID).First(&user).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	return user, nil
+}

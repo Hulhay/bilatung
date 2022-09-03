@@ -40,7 +40,7 @@ type Quotes struct {
 
 	// tags
 	// Required: true
-	Tags []string `json:"tags" gorm:"type:varchar(255)"`
+	Tags *string `json:"tags" gorm:"type:varchar(255)"`
 
 	// updated at
 	// Format: date-time

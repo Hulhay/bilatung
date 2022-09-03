@@ -157,6 +157,27 @@ paths:
                 example: "Succeess"
         default:
           $ref: "#/responses/ErrorUnexpected"
+    get:
+      summary: "Get random quote"
+      description: "Get random quote"
+      tags:
+        - "Quote"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: object
+            properties:
+              message:
+                type: "string"
+                description: "Succes get quote"
+                example: "Success"
+              data:
+                $ref: "#/definitions/QuotesResponse"
+        default:
+          $ref: "#/responses/ErrorUnexpected"
           
   # /profile:
   #   get:
@@ -257,6 +278,30 @@ definitions:
         minLength: 6
 
 #### Response ####
+
+  QuotesResponse:
+    type: "object"
+    properties:
+      quote_id:
+        type: "integer"
+      user:
+        type: "string"
+      quote:
+        type: "string"
+      author:
+        type: "string"
+      tags:
+        type: "string"
+      upvote:
+        type: "integer"
+      downvote:
+        type: "integer"
+      created_at:
+        type: "string"
+        format: "date-time"
+      updated_at:
+        type: "string"
+        format: "date-time"
         
 #### Models ####        
         
@@ -341,9 +386,7 @@ definitions:
         type: "string"
         x-go-custom-tag: gorm:"type:varchar(255)"
       tags:
-        type: "array"
-        items:
-          type: "string"
+        type: "string"
         x-go-custom-tag: gorm:"type:varchar(255)"
       upvote:
         type: "integer"

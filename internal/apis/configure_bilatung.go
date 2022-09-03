@@ -117,6 +117,21 @@ func configureAPI(api *operations.BilatungAPI) http.Handler {
 		})
 	})
 
+	// GET RANDOM QUOTE
+	api.QuoteGetQuoteHandler = quote.GetQuoteHandlerFunc(func(param quote.GetQuoteParams) middleware.Responder {
+		result, err := handlers.NewHandler().GetRandomQuote(context.Background())
+		if err != nil {
+			var errorMessage = new(string)
+			*errorMessage = err.Error()
+			return quote.NewGetQuoteDefault(400).WithPayload(&models.Error{Code: "400", Message: *errorMessage})
+		}
+
+		return quote.NewGetQuoteOK().WithPayload(&quote.GetQuoteOKBody{
+			Message: "Get Quote Successfully",
+			Data:    result,
+		})
+	})
+
 	api.PreServerShutdown = func() {}
 
 	api.ServerShutdown = func() {}

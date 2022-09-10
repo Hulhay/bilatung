@@ -1,10 +1,12 @@
 import os
+import faker
 import dotenv
 import requests as r
 from assertpy import assert_that
 
 dotenv.load_dotenv()
 base_url = os.environ['BASE_URL_TESTING']
+fake = faker.Faker()
 
 def test_register_empty_body():
     resp = r.post(f'{base_url}/register')
@@ -94,3 +96,18 @@ def test_register_invalid_password():
     assert_that(resp.status_code).is_not_equal_to(200)
     assert_that(data).contains('message')
     assert_that(data['message']).is_equal_to('password in body should be at least 6 chars long')
+
+def test_register_success():
+
+    username = f'fake_{fake.name().replace(" ", "")}'
+    email = f'{username}@gmail.com'
+
+    body = {
+        "email": username,
+        "password": "thisIsFakePassword",
+        "username": email,
+    }
+
+    resp = r.post(f'{base_url}/register', json=body)
+
+    assert_that(resp.status_code).is_equal_to(201)

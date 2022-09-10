@@ -103,9 +103,9 @@ def test_register_success():
     email = f'{username}@gmail.com'
 
     body = {
-        "email": username,
+        "email": email,
         "password": "thisIsFakePassword",
-        "username": email,
+        "username": username,
     }
 
     resp = r.post(f'{base_url}/register', json=body)
